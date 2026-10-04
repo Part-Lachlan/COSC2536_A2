@@ -1,5 +1,4 @@
 import os
-import os.path
 import random
 #for making paths working on all OS
 BASE=os.path.dirname(os.path.abspath(__file__))
