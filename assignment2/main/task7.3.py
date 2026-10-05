@@ -61,15 +61,69 @@ def handling_first_and_last_name():
         if name_check.isalpha() == True and len(name_check_2) == 2:
             correct_name = True
     return full_name
+
+# Function ensures that the given number is an integer, within the specified range and is a prime number.
+def handling_prime_input(prime_number, min_value, max_value):
+    is_prime = False
+    while is_prime == False:
+        Prime = input(f"Enter prime {prime_number} number between {min_value} and {max_value}: ")
+        is_digit = Prime.isdigit()
+        if is_digit == False:
+            print("The input is not a number")
+            continue
+        Prime = int(Prime)
+        if Prime < min_value or Prime > max_value:
+            print(f"The number is not in the range of {min_value} and {max_value}")
+            continue
+        is_prime = Crypto.Util.number.isPrime(Prime)
+        if is_prime == False:
+            print("The number is not prime")
+    return Prime
+
+
+# Main
 # Prompts the user to enter their first and last namee, if input is invalid it repormmpts them. Then it extracts the intials from the first and last name and captialises them.
 full_name = handling_first_and_last_name()
 first_name, last_name = full_name.split()
 initials = (first_name[0] + last_name[0]).upper()
-
-
+# prints the initials of the user
 print("Your initials are: ", initials)
 
-Prime_1 = input("Enter a prime number between  1000000000 and 9999999999:")
+# gets the two prime numbers from the user and checks if they are valid.
+prime_1 = handling_prime_input(1, 1000000000, 9999999999)
+prime_2 = handling_prime_input(2, 10000000000000, 99999999999999 )
+
+# ensures the plain text is only alphabets.
+accept_plaintext = False
+while accept_plaintext == False:
+    plaintext = input("Enter data using alphabetic characters only (at least 3 characters): ")
+    if plaintext.isalpha() == True and len(plaintext) >= 3:
+        accept_plaintext = True
+# displays the plaintext entered by the user
+print(f"Plaintext: {plaintext}")
+
+# generate the public key values e and n
+e, n = generate_public_key(prime_1, prime_2)
+
+plaintext_int = handling_user_input(plaintext)
+# encrypts the plaintext using the RSA public key vlaues.
+ciphertext = encrypt_plaintext(plaintext_int, e, n )
+
+# saves the ciphertext and the initals of the user in the output folder.
+output_file = os.path.join(BASE, "..", "output", "cipher.txt")
+with open (output_file, "w") as file:
+    file.write(f"{ciphertext}\n")
+    file.write(f"{initials}")
+# saves the public key values e and n in the key folder
+key_file = os.path.join(BASE, "..", "keys", "key.txt")
+with open(key_file, "w") as file:
+    file.write(f"({e}, {n})")
+    
+            
+
+
+
+
 
 
     
