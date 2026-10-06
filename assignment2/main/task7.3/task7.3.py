@@ -110,12 +110,12 @@ plaintext_int = handling_user_input(plaintext)
 ciphertext = encrypt_plaintext(plaintext_int, e, n )
 
 # saves the ciphertext and the initals of the user in the output folder.
-output_file = os.path.join(BASE, "..", "output", "cipher.txt")
+output_file = os.path.join(BASE, "output", "cipher.txt")
 with open (output_file, "w") as file:
     file.write(f"{ciphertext}\n")
     file.write(f"{initials}")
 # saves the public key values e and n in the key folder
-key_file = os.path.join(BASE, "..", "keys", "key.txt")
+key_file = os.path.join(BASE, "keys", "key.txt")
 with open(key_file, "w") as file:
     file.write(f"({e}, {n})")
     

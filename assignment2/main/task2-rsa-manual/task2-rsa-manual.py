@@ -66,7 +66,7 @@ def decrypt_message(ciphertext, d, n):
 
 # Main Program
 # reads the input file from the input folder and stores the message in a variable named message. The message is also converted to an integer.
-input_file = os.path.join(BASE, "..", "input", "task2.txt")
+input_file = os.path.join(BASE, "input", "task2.txt")
 with open(input_file, "r") as file:
     message = file.read()
 message = int(message)
@@ -78,7 +78,7 @@ p,q = generate_prime_number()
 e,d,n = key_generation(p,q)
 
 # save the RSA generated keys in the keys folder.
-key_file = os.path.join(BASE, "..", "keys", "task2-keys.txt")
+key_file = os.path.join(BASE, "keys", "task2-keys.txt")
 with open(key_file, "w") as file:
     file.write(f"Public key (n,e): ({n}, {e})\n")
     file.write(f"Private key (d): {d}")
@@ -90,7 +90,7 @@ ciphertext = encrypt_message(message,e,n)
 decrypted_message = decrypt_message(ciphertext,d,n)
 
 # saving the ciphertext and decrypted message in the output folder.
-output_file = os.path.join(BASE, "..", "output", "task2-output.txt")
+output_file = os.path.join(BASE, "output", "task2-output.txt")
 with open (output_file, "w") as file:
     file.write(f"Ciphertext: {ciphertext}\n")
     file.write(f"Decrypted message: {decrypted_message}")
