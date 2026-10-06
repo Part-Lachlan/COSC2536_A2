@@ -1,6 +1,9 @@
+# REFERENCE: "import os" was referenced from the Week 7 lectorial code, file: "rsa_padding_file.py".
 import os
 import random
 import Crypto.Util.number
+
+# REFERENCE: The BASE path approach was referenced from the Week 7 lectorial code, file: "rsa_padding_file.py".
 # For making paths working on all OS
 BASE=os.path.dirname(os.path.abspath(__file__))
 
@@ -82,6 +85,14 @@ def handling_prime_input(prime_number, min_value, max_value):
 
 
 # Main
+# ensures that the student ID entered by the user is only numbers.
+valid_id = False
+while valid_id == False:
+    student_id = input("Enter your student ID (numbers only): ")
+    if student_id.isdigit() == True:
+        valid_id = True
+print(f"Student ID : {student_id}")
+
 # Prompts the user to enter their first and last namee, if input is invalid it repormmpts them. Then it extracts the intials from the first and last name and captialises them.
 full_name = handling_first_and_last_name()
 first_name, last_name = full_name.split()
@@ -90,6 +101,7 @@ initials = (first_name[0] + last_name[0]).upper()
 print("Your initials are: ", initials)
 
 # gets the two prime numbers from the user and checks if they are valid.
+# The primes are far apart and from different ranges to address the close-prime weakness identified in Question 7.1.
 prime_1 = handling_prime_input(1, 1000000000, 9999999999)
 prime_2 = handling_prime_input(2, 10000000000000, 99999999999999 )
 
@@ -109,11 +121,16 @@ plaintext_int = handling_user_input(plaintext)
 # encrypts the plaintext using the RSA public key vlaues.
 ciphertext = encrypt_plaintext(plaintext_int, e, n )
 
+# REFERENCE: The file path and file creation/writing approach was referenced from the Week 7 lectorial code, file: "rsa_padding_file.py".
+# It was adapted to fit the requirements of this task.
 # saves the ciphertext and the initals of the user in the output folder.
 output_file = os.path.join(BASE, "output", "cipher.txt")
 with open (output_file, "w") as file:
     file.write(f"{ciphertext}\n")
     file.write(f"{initials}")
+
+# REFERENCE: The file path and file creation/writing approach was referenced from the Week 7 lectorial code, file: "rsa_padding_file.py".
+# It was adapted to fit the requirements of this task.
 # saves the public key values e and n in the key folder
 key_file = os.path.join(BASE, "keys", "key.txt")
 with open(key_file, "w") as file:

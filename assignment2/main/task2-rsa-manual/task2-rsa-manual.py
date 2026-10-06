@@ -1,5 +1,8 @@
+# REFERENCE: "import os" was referenced from the Week 7 lectorial code, file: "rsa_padding_file.py".
 import os
 import random
+
+# REFERENCE: The BASE path approach was referenced from the Week 7 lectorial code, file: "rsa_padding_file.py".
 #for making paths working on all OS
 BASE=os.path.dirname(os.path.abspath(__file__))
 
@@ -65,6 +68,9 @@ def decrypt_message(ciphertext, d, n):
 
 
 # Main Program
+
+# REFERENCE: The file path and file reading approach was referenced from the Week 7 lectorial code, file: "rsa_padding_file.py".
+# It was adapted to fit the requirements of this task.
 # reads the input file from the input folder and stores the message in a variable named message. The message is also converted to an integer.
 input_file = os.path.join(BASE, "input", "task2.txt")
 with open(input_file, "r") as file:
@@ -77,6 +83,9 @@ p,q = generate_prime_number()
 # generate the RSA public and private keys
 e,d,n = key_generation(p,q)
 
+
+# REFERENCE: The file path and file creation/writing approach was referenced from the Week 7 lectorial code, file: "rsa_padding_file.py".
+# It was adapted to fit the requirements of this task.
 # save the RSA generated keys in the keys folder.
 key_file = os.path.join(BASE, "keys", "task2-keys.txt")
 with open(key_file, "w") as file:
@@ -89,6 +98,9 @@ ciphertext = encrypt_message(message,e,n)
 # decrypt the ciphertext using the private key
 decrypted_message = decrypt_message(ciphertext,d,n)
 
+
+# REFERENCE: The file path and file creation/writing approach was referenced from the Week 7 lectorial code, file: "rsa_padding_file.py".
+# It was adapted to fit the requirements of this task.
 # saving the ciphertext and decrypted message in the output folder.
 output_file = os.path.join(BASE, "output", "task2-output.txt")
 with open (output_file, "w") as file:
