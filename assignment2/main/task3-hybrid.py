@@ -62,9 +62,9 @@ def encrypt_AES(aes_key, iv):
 def encrypt_RSA(public_key, aes_key):
     rsa_public_key = RSA.import_key(public_key)
     rsa_encrypt_cipher = PKCS1_OAEP.new(rsa_public_key) # OAEP padding - NOT textbook RSA as per Q3 req
-    
+
     encrypted_aes_key = rsa_encrypt_cipher.encrypt(aes_key)
-    
+
     # Save encrypted AES key
     with open(encrypted_aes_key_file, "wb") as file:
         file.write(encrypted_aes_key)
@@ -95,21 +95,32 @@ def decrypt_AES(decrypted_key):
     return decrypted_data
 
 def main():
-    private_rsa_key, public_rsa_key = gen_RSA_keys()
+    # Generate keys
     aes_key, iv = gen_AES_key()
+    private_rsa_key, public_rsa_key = gen_RSA_keys()
+
+    # Print keys
+    print("AES key: ", aes_key, "\n")
+    print("Private RSA key:\n", private_rsa_key, "\n")
+    print("Public RSA key:\n", public_rsa_key, "\n")
 
     # Encode
     cipher_key = encrypt_AES(aes_key, iv)
     encrypted_key = encrypt_RSA(public_rsa_key,aes_key)
 
-    # Print
+    # Print encoded
+    print("Encrypted AES cipher key (RSA): ", encrypted_key, "\n")
+    print("\n---Encrypted Data:---\n")
+    print(cipher_key)
 
     # Decode
     decrypted_key = decrypt_RSA(encrypted_key)
     decrypted_data = decrypt_AES(decrypted_key)
 
-    # Print
-
+    # Print decoded
+    print("\nDecrypted AES key: ", decrypted_key, "\n")
+    print("\n---Decrypted Data:---\n")
+    print(decrypted_data)
 
 
 if __name__ == "__main__":

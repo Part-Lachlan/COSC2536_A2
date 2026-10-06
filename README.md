@@ -4,5 +4,5 @@ Lachlan Partridge s4103594
 
 # Virtual Environment setup
 py -m venv .venv
-.\.venv\Scripts\Activate.ps1
+source .venv/bin/activate
 python -m pip install -r requirements.txt
