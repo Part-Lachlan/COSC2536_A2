@@ -1,3 +1,5 @@
 .venv/
-assignment2/keys
-assignment2/output
+assignment2/main/task2-rsa-manual/keys
+assignment2/main/task2-rsa-manual/output
+assignment2/main/task3-hybrid/keys
+assignment2/main/task3-hybrid/output

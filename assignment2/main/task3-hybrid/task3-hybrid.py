@@ -12,14 +12,18 @@ from Crypto.Random import get_random_bytes
 #for making paths working on all OS
 BASE=os.path.dirname(os.path.abspath(__file__))
 
-# Setup PATH variables
-input_file = os.path.join(BASE, "..", "input", "task2.txt")
+# Setup PATH variables (based on L5/rsa_pycryptodome_file.py)
+input_file = os.path.join(BASE, "..", "task2-rsa-manual", "input", "task2.txt")
 
-public_key_file = os.path.join(BASE, "..", "keys", "task3-public.pem")
-private_key_file = os.path.join(BASE, "..", "keys", "task3-private.pem")
-encrypted_file = os.path.join(BASE, "..", "output", "task3-encrypted.bin")
-encrypted_aes_key_file = os.path.join(BASE, "..", "output", "task3-encrypted-aes-key.bin")
-decrypted_file = os.path.join(BASE, "..", "output", "task3-decrypted.txt")
+public_key_file = os.path.join(BASE, "keys", "task3-public.pem")
+private_key_file = os.path.join(BASE, "keys", "task3-private.pem")
+encrypted_file = os.path.join(BASE, "output", "task3-encrypted.bin")
+encrypted_aes_key_file = os.path.join(BASE, "output", "task3-encrypted-aes-key.bin")
+decrypted_file = os.path.join(BASE, "output", "task3-decrypted.txt")
+
+# Create directories if they do not exist
+os.makedirs(os.path.join(BASE, "keys"), exist_ok=True)
+os.makedirs(os.path.join(BASE, "output"), exist_ok=True)
 
 # Get task2.txt with "rb" for bytes
 with open(input_file, "rb") as file:
@@ -92,6 +96,10 @@ def decrypt_AES(decrypted_key):
 
     decrypted_data = unpad(padded_decrypted_data, AES.block_size)
 
+    #save decrypted file
+    with open(decrypted_file, "wb") as file:
+        file.write(decrypted_data)
+
     return decrypted_data
 
 def main():
@@ -99,29 +107,32 @@ def main():
     aes_key, iv = gen_AES_key()
     private_rsa_key, public_rsa_key = gen_RSA_keys()
 
-    # Print keys
-    print("AES key: ", aes_key, "\n")
-    print("Private RSA key:\n", private_rsa_key, "\n")
-    print("Public RSA key:\n", public_rsa_key, "\n")
+    # Print keys (using .hex() and .decode() for print readability)
+    print("AES key: ", aes_key.hex(), "\n")
+    print("Private RSA key:\n", private_rsa_key.decode(), "\n")
+    print("Public RSA key:\n", public_rsa_key.decode(), "\n")
 
     # Encode
-    cipher_key = encrypt_AES(aes_key, iv)
+    ciphertext = encrypt_AES(aes_key, iv)
     encrypted_key = encrypt_RSA(public_rsa_key,aes_key)
 
     # Print encoded
-    print("Encrypted AES cipher key (RSA): ", encrypted_key, "\n")
-    print("\n---Encrypted Data:---\n")
-    print(cipher_key)
+    print("Encrypted AES cipher key (RSA): ", encrypted_key.hex(), "\n")
+    print("Encrypted Data:", ciphertext.hex())
 
     # Decode
     decrypted_key = decrypt_RSA(encrypted_key)
     decrypted_data = decrypt_AES(decrypted_key)
 
     # Print decoded
-    print("\nDecrypted AES key: ", decrypted_key, "\n")
-    print("\n---Decrypted Data:---\n")
-    print(decrypted_data)
+    print("\nDecrypted AES key: ", decrypted_key.hex())
+    print("\nDecrypted Data: ", decrypted_data.decode())
 
+    # Print validity check
+    if plaintext == decrypted_data:
+        print("\n SUCCESS: Decrypted file matches original file")
+    else:
+        print("\n ERROR: Decrypted file does not match original file")
 
 if __name__ == "__main__":
     main()
