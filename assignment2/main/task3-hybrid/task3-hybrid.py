@@ -8,7 +8,6 @@ from Crypto.PublicKey import RSA
 from Crypto.Util.Padding import pad, unpad
 from Crypto.Random import get_random_bytes
 
-
 #for making paths working on all OS
 BASE=os.path.dirname(os.path.abspath(__file__))
 
@@ -107,7 +106,7 @@ def main():
     aes_key, iv = gen_AES_key()
     private_rsa_key, public_rsa_key = gen_RSA_keys()
 
-    # Print keys (using .hex() and .decode() for print readability)
+    # Print keys (using .hex() and .decode() for print readability as explained in L4/Example1_String_aes.py)
     print("AES key: ", aes_key.hex(), "\n")
     print("Private RSA key:\n", private_rsa_key.decode(), "\n")
     print("Public RSA key:\n", public_rsa_key.decode(), "\n")
